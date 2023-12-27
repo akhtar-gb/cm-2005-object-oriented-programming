@@ -1,0 +1,10 @@
+﻿  CSVReader.cpp
+C:\Users\akhtar\source\repos\Merkelrex\Merkelrex\CSVReader.cpp(24,42): warning C4101: 'e': unreferenced local variable
+C:\Users\akhtar\source\repos\Merkelrex\Merkelrex\CSVReader.cpp(40,38): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\akhtar\source\repos\Merkelrex\Merkelrex\CSVReader.cpp(42,36): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\akhtar\source\repos\Merkelrex\Merkelrex\CSVReader.cpp(67,34): warning C4101: 'e': unreferenced local variable
+  MerkelMain.cpp
+  main.cpp
+  OrderBookEntry.cpp
+  Generating Code...
+  Merkelrex.vcxproj -> C:\Users\akhtar\source\repos\Merkelrex\ARM64\Debug\Merkelrex.exe

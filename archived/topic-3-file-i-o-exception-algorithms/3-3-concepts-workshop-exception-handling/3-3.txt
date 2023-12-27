@@ -1,0 +1,130 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
+
+
+// function prototype for tokenising a string
+std::vector<std::string> tokenise(std::string csvLine, char separator) {
+    //  string vector tokens  ## stores the tokens to be returned with push_back
+    std::vector<std::string> tokens;
+    signed int start, end;
+    std::string token;
+
+    // set start to the first non-separator character
+    start = csvLine.find_first_not_of(separator, 0);
+
+    // do while loop to find the next separator
+    do {
+        // set end to the next separator after start
+        end = csvLine.find_first_of(separator, start);
+        // first check if we have reached the end of the string
+        if (start == csvLine.length() || start == end) break;
+        // if we have not reached the end of the string, check if we found a separator
+        if (end >= 0) token = csvLine.substr(start, end - start);
+        // if we did not find a separator, set token to the rest of the string
+        else token = csvLine.substr(start, csvLine.length() - start);
+        
+        // add token to the end of the tokens vector
+        tokens.push_back(token);
+        // move past this token
+        start = end + 1;
+    // continue loop condition while it is not the end of the string
+    } while (end != std::string::npos);
+
+    // return the vector of tokens
+    return tokens;
+};
+
+
+int main(){
+
+    // // test the tokenise function
+    // std::string s = "thing0,thing1,thing2";
+    // // call the tokenise function
+    // std::vector<std::string> tokens = tokenise(s, ',');
+
+    // for (const std::string& t : tokens) {
+    //     std::cout << t << std::endl;
+    // };
+
+    std::string csvFilename{"20200317.csv"};
+    // open the file
+    std::ifstream csvFile{csvFilename};
+    std::string line;
+    int lineCount = 0;
+    std::vector<std::string> tokens;
+    
+    if (csvFile.is_open()){                                                         //open the file
+        std::cout << "Opened file: " << csvFilename << std::endl;                   //print success message
+        std::string line;                                                           //create a string to store the line
+        // read the file line by line
+        while (std::getline(csvFile, line)){                                        //read the file line by line        
+            std::cout << "Line read: " << line << std::endl;                        //print the line
+            std::vector<std::string> tokens = tokenise(line, ',');                  //tokenise the line            
+            std::cout << "Number of tokens: " << tokens.size() << std::endl;       //print the number of tokens
+
+            // check if the line is valid and if true then continue
+            if (tokens.size() != 5){
+                std::cout << "Error: tokens size is not five" << std::endl;
+                continue;
+            };
+
+            // count the number of lines in the file
+            lineCount++;
+
+            // try and catch block to convert the non string tokens to the correct data type
+            try{
+                // double price = std::stod("Im not a double");
+                std::string date = tokens[0];
+                std::string time = tokens[1];
+                /// --------- what about tokens[2]?= ---------
+                double price = std::stod(tokens[3]);
+                double volume = std::stod(tokens[4]);
+                // std::cout << "Price: " << price << std::endl;
+                // std::cout << "Volume: " << volume << std::endl;
+            }
+            catch (const std::exception& e){
+                // std::cout << "Error: " << e.what() << std::endl;
+                // continue;
+
+                // print the error message and the line that caused the error
+                // std::cout << "Error: " << tokens[3] << std::endl;
+                // std::cout << "Error: " << tokens[4] << std::endl;
+                continue;
+                // break;
+            };
+   
+        };
+
+        std::cout << "Total line count: " << lineCount << std::endl;
+        
+        csvFile.close();                                                            //close the file            
+    }
+    // if the file could not be opened, print an error message
+    else{
+        std::cout << "File could not be opened" << csvFilename << std::endl;                       //print error message if file could not be opened
+    };
+    
+    return 0;
+};
+
+
+
+//  string vector tokens  ## stores the tokens
+//  char separator = ','  ## the character that separates the tokens
+//  int start, end ## used to delineate the position of the tokens
+//  start = csvLine.find_first_not_of(separator)
+//  do
+//  end = next 'separator' after start
+//  if start == csvLine.length or start == end ## nothing more to find
+//      break
+//  if end >= 0 ## we found the separator
+//      token = csvLine.substr(start, end - start) ## start, substring length
+//  else
+//      token = csvLine.substr(start, csvLine.length - start) ## end is invalid
+//  add token to the end of the tokens vector
+//  start = end + 1 ## move past this token
+//  while (end > 0) ## continue loop condition
+
+
